@@ -1,0 +1,153 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Battle.gd" type="Script" id=1]
+[ext_resource path="res://Rat.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Slime.tscn" type="PackedScene" id=3]
+[ext_resource path="res://PlayerStats.gd" type="Script" id=4]
+[ext_resource path="res://Images/Dungeon.png" type="Texture" id=5]
+[ext_resource path="res://Images/Mobile RPG Mockup.png" type="Texture" id=6]
+[ext_resource path="res://DefaultTheme.tres" type="Theme" id=7]
+[ext_resource path="res://StatsPanel.gd" type="Script" id=8]
+[ext_resource path="res://SwordActionButton.tscn" type="PackedScene" id=9]
+[ext_resource path="res://HealActionButton.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Animation" id=1]
+resource_name = "FadeToNewRoom"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fade:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.35, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Battle" type="Node"]
+script = ExtResource( 1 )
+enemies = [ ExtResource( 2 ), ExtResource( 3 ) ]
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Dungeon" type="Sprite" parent="."]
+position = Vector2( 45, 80 )
+texture = ExtResource( 5 )
+
+[node name="EnemyPosition" type="Position2D" parent="."]
+position = Vector2( 46, 29 )
+
+[node name="Slime" parent="EnemyPosition" instance=ExtResource( 3 )]
+
+[node name="Mobile RPG Mockup" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.294118 )
+position = Vector2( 45, 80 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UI" type="Control" parent="."]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+margin_right = 90.0
+margin_bottom = 47.0
+
+[node name="NextRoomButton" type="Button" parent="UI/CenterContainer"]
+visible = false
+margin_left = 10.0
+margin_top = 17.0
+margin_right = 80.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 70, 13 )
+text = "ENTER NEXT ROOM"
+
+[node name="StatsPanel" type="Panel" parent="UI"]
+editor/display_folded = true
+margin_left = 3.0
+margin_top = 47.0
+margin_right = 87.0
+margin_bottom = 70.0
+script = ExtResource( 8 )
+
+[node name="StatsContainer" type="HBoxContainer" parent="UI/StatsPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HP" type="Label" parent="UI/StatsPanel/StatsContainer"]
+margin_top = 2.0
+margin_right = 25.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "HP
+25"
+align = 1
+
+[node name="AP" type="Label" parent="UI/StatsPanel/StatsContainer"]
+margin_left = 29.0
+margin_top = 2.0
+margin_right = 54.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "AP
+3"
+align = 1
+
+[node name="MP" type="Label" parent="UI/StatsPanel/StatsContainer"]
+margin_left = 58.0
+margin_top = 2.0
+margin_right = 84.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "MP
+10"
+align = 1
+
+[node name="TextboxPanel" type="Panel" parent="UI"]
+margin_left = -2.0
+margin_top = 137.0
+margin_right = 92.0
+margin_bottom = 162.0
+
+[node name="BattleActionButtons" type="GridContainer" parent="UI"]
+editor/display_folded = true
+margin_left = 9.0
+margin_top = 73.0
+margin_right = 81.0
+margin_bottom = 134.0
+custom_constants/vseparation = 3
+custom_constants/hseparation = 8
+columns = 2
+
+[node name="SwordActionButton" parent="UI/BattleActionButtons" instance=ExtResource( 9 )]
+
+[node name="HealActionButton" parent="UI/BattleActionButtons" instance=ExtResource( 10 )]
+margin_left = 40.0
+margin_right = 72.0
+
+[node name="Fade" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeToNewRoom = SubResource( 1 )
+[connection signal="ap_changed" from="PlayerStats" to="UI/StatsPanel" method="_on_PlayerStats_ap_changed"]
+[connection signal="hp_changed" from="PlayerStats" to="UI/StatsPanel" method="_on_PlayerStats_hp_changed"]
+[connection signal="mp_changed" from="PlayerStats" to="UI/StatsPanel" method="_on_PlayerStats_mp_changed"]
+[connection signal="pressed" from="UI/CenterContainer/NextRoomButton" to="." method="_on_NextRoomButton_pressed"]
