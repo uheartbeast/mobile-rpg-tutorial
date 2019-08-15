@@ -6,3 +6,7 @@
 [node name="HealActionButton" instance=ExtResource( 1 )]
 text = "HEAL"
 script = ExtResource( 2 )
+
+[node name="HoverInfo" parent="." index="0"]
+description = "Heal
+Heals 5 health."

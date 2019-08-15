@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Battle.gd" type="Script" id=1]
 [ext_resource path="res://Rat.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://StatsPanel.gd" type="Script" id=8]
 [ext_resource path="res://SwordActionButton.tscn" type="PackedScene" id=9]
 [ext_resource path="res://HealActionButton.tscn" type="PackedScene" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FadeToNewRoom"
@@ -54,9 +56,9 @@ __meta__ = {
 }
 
 [node name="UI" type="Control" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme = ExtResource( 7 )
 __meta__ = {
 "_edit_lock_": true
@@ -65,6 +67,7 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
 margin_right = 90.0
 margin_bottom = 47.0
+mouse_filter = 2
 
 [node name="NextRoomButton" type="Button" parent="UI/CenterContainer"]
 visible = false
@@ -122,6 +125,18 @@ margin_top = 137.0
 margin_right = 92.0
 margin_bottom = 162.0
 
+[node name="Textbox" type="RichTextLabel" parent="UI/TextboxPanel"]
+margin_left = 3.0
+margin_top = 2.0
+margin_right = 91.0
+margin_bottom = 23.0
+custom_styles/normal = SubResource( 2 )
+custom_constants/line_separation = 2
+text = "Here is a test
+So we can see how it
+looks"
+scroll_active = false
+
 [node name="BattleActionButtons" type="GridContainer" parent="UI"]
 editor/display_folded = true
 margin_left = 9.0
@@ -144,6 +159,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/FadeToNewRoom = SubResource( 1 )

@@ -19,7 +19,7 @@ func _ready():
 func start_enemy_turn():
 	battleActionButtons.hide()
 	var enemy = BattleUnits.Enemy
-	if enemy != null:
+	if enemy != null and not enemy.is_queued_for_deletion():
 		enemy.attack()
 		yield(enemy, "end_turn")
 	start_player_turn()

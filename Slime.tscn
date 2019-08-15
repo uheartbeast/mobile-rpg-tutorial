@@ -12,3 +12,10 @@ texture = ExtResource( 2 )
 
 [node name="HPLabel" parent="." index="1"]
 text = "35hp"
+
+[node name="HoverInfo" parent="." index="3"]
+margin_left = -22.0
+margin_top = -10.0
+margin_right = 20.0
+margin_bottom = 11.0
+description = "A green slime."
